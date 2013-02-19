@@ -38,23 +38,27 @@ class PBF:
 						return False
 			i += 1
 		return True
-	
-	def toNNF(PBF):
-		i = 0
-		pfa = str(PBF).split()
-		while i < len(pfa):
-			if pfa[i] == '!':
-				nnf_var = bool(re.search('[a-z]', pfa[i-1], re.IGNORECASE))
-				if nnf_var == False:
-					return False
-				elif i + 1 < len(pfa):
-					if pfa[i+1] == '!':
-						return False
-			i += 1
-		return True
-	
+		
+	#def toNNF(PBF):
+		#i = 0
+		#isNNF = False
+		#pfa = str(PBF).split()
+		#while i < len(pfa):
+		#	if pfa[i] == '!':
+		#		nnf_var = bool(re.search('[a-z]', pfa[i-1], re.IGNORECASE))
+		#		if nnf_var != False:
+		#			isNNF = True
+		#		elif i + 1 < len(pfa):
+		#			if pfa[i+1] != '!':
+		#				isNNF = True
+		#	i += 1
+		#if isNNF == True:
+		#	return PBF
+		#else:
+			
+			
 class OR(PBF):
-    
+  
     def __init__(self, f1, f2):
         self.lchild = f1
         self.rchild = f2
