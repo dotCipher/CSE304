@@ -51,14 +51,52 @@ class PGM(PROTO):
         self.rchild = f2
 	
 	@classmethod
-	def endSTMT(self, f1):
-		self.lchild = f1
-
-    #def __str__(self):
-    #    return 
+	def endSTMT(self, f):
+		self.child = f
 
 class STMT(PROTO):
-	def __init__(self, f1):
-		self.child = f1
+	def __init__(self, f):
+		self.child = f
 
-class 
+class ASSIGN(PROTO):
+	def __init__(self, f1, f2):
+        self.lchild = f1
+        self.rchild = f2
+
+class PRINT(PROTO):
+	def __init__(self, f):
+        self.lchild = f
+
+class RHS(PROTO):
+	def __init__(self, f):
+        self.lchild = f
+
+class AE(PROTO):
+	def __init__(self, f):
+        self.lchild = f
+	
+	@classmethod
+	def setSumOp(self, f1, f2, f3):
+		self.lchild = f1
+		self.mchild = f2
+		self.rchild = f3
+
+class T(PROTO):
+	def __init__(self, f):
+        self.lchild = f
+	
+	@classmethod
+	def setProdOp(self, f1, f2, f3):
+		self.lchild = f1
+		self.mchild = f2
+		self.rchild = f3
+
+class F(PROTO):
+	def __init__(self, f):
+        self.lchild = f
+	
+	@classmethod
+	def setProdOp(self, f1, f2, f3):
+		self.lchild = f1
+		self.mchild = f2
+		self.rchild = f3
