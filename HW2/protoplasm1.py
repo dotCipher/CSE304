@@ -94,7 +94,17 @@ def tokenz(l, i):
         i += 1
     tokenz(l, i)
 
-def seperateLines(strList):
+def convertToStmts(parsedList):
+    newList = list()
+    listToAdd = list()
+    while len(parsedList) > 0:
+        if parsedList[0] == ';':
+            newList.append(listToAdd)
+            listToAdd = list()
+        else:
+            listToAdd.append(parsedList[0])
+        parsedList.pop(0)
+    return newList
 	
 
 def main():
