@@ -2,7 +2,7 @@
 # Protoplasm 1 - Parser and Scanner
 # -------------------------------------------------------- #
 # The Grammer for protoplasm is as follows:
-
+#
 # Pgm = Program
 # Stmt = Statement
 # Asgn = Assignment
@@ -13,7 +13,7 @@
 # F = Factor
 # SumOp = Sum Operator
 # PrdOp = Product Operator
-
+#
 # Pgm	-> Stmt Pgm
 # Pgm	-> Stmt
 # Stmt	-> Asgn
@@ -24,12 +24,12 @@
 # Rhs	-> AE
 # AE	-> T SumOp AE
 # AE	-> T
-# T		-> F PrdOp T
-# T		-> F
-# F		-> intconst
-# F		-> var
-# F		-> - F
-# F		-> ( AE )
+# T	-> F PrdOp T
+# T	-> F
+# F	-> intconst
+# F	-> var
+# F	-> - F
+# F	-> ( AE )
 # SumOp	-> +
 # SumOp	-> -
 # PrdOp	-> *
@@ -39,9 +39,14 @@
 # Imports and globals
 # -------------------------------------------------------- #
 import sys
+import ply.lex as lex
+import ply.yacc as yacc
+import protoplasm_interp
+import protoplasm_lex
 # -------------------------------------------------------- #
-# Main Code Block
+# Functions
 # -------------------------------------------------------- #
+
 def tokenz(l, i):
     if len(l) == i:
         return
@@ -94,9 +99,21 @@ def tokenz(l, i):
         i += 1
     tokenz(l, i)
 
-def seperateLines(strList):
-	
+def convertToStmts(parsedList):
+    newList = list()
+    listToAdd = list()
+    while len(parsedList) > 0:
+        if parsedList[0] == ';':
+            newList.append(listToAdd)
+            listToAdd = list()
+        else:
+            listToAdd.append(parsedList[0])
+        parsedList.pop(0)
+    return newList
 
+# -------------------------------------------------------- #
+# Main Code Block
+# -------------------------------------------------------- #
 def main():
 	s = ''
 	if len(sys.argv) > 1:
@@ -106,12 +123,25 @@ def main():
 	else:
 		print 'Please run protoplasm with this format: protoplasm1.py arg1'
 		print 'arg1 being a .proto file'
-	
-	for line in f:
-		s += line + ' '
-	l = s.split()
-	print l
-	tokenz(l, 0)
-	print l
-	
-main()
+	if len(sys.argv) > 1:
+		for line in f:
+			s += line + ' '
+		#l = s.split()
+		#tokenz(l, 0)
+		#print l
+		#newList = convertToStmts(l)
+		#print newList
+		# Setup lexer
+		lexer = lex.lex(module=protoplasm_lex)
+		lexer.input(s)
+		token_list = list()
+		while True:
+			token = lexer.token()
+			if not token: 
+				break
+			else:
+				token_list.append(token)
+		print token_list
+		
+if __name__ == "__main__":
+	main()
