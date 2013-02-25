@@ -1,8 +1,8 @@
 # -------------------------------------------------------- #
-# Protoplasm 1 - Parser and Scanner
+# Protoplasm 1 - Main Caller
 # -------------------------------------------------------- #
 # The Grammer for protoplasm is as follows:
-
+#
 # Pgm = Program
 # Stmt = Statement
 # Asgn = Assignment
@@ -13,7 +13,7 @@
 # F = Factor
 # SumOp = Sum Operator
 # PrdOp = Product Operator
-
+#
 # Pgm	-> Stmt Pgm
 # Pgm	-> Stmt
 # Stmt	-> Asgn
@@ -24,12 +24,12 @@
 # Rhs	-> AE
 # AE	-> T SumOp AE
 # AE	-> T
-# T		-> F PrdOp T
-# T		-> F
-# F		-> intconst
-# F		-> var
-# F		-> - F
-# F		-> ( AE )
+# T	-> F PrdOp T
+# T	-> F
+# F	-> intconst
+# F	-> var
+# F	-> - F
+# F	-> ( AE )
 # SumOp	-> +
 # SumOp	-> -
 # PrdOp	-> *
@@ -39,9 +39,15 @@
 # Imports and globals
 # -------------------------------------------------------- #
 import sys
+import ply.lex as lex
+import ply.yacc as yacc
+import protoplasm_parse
+import protoplasm_lex
+import protoplasm_interp
 # -------------------------------------------------------- #
-# Main Code Block
+# Functions
 # -------------------------------------------------------- #
+
 def tokenz(l, i):
     if len(l) == i:
         return
@@ -94,9 +100,21 @@ def tokenz(l, i):
         i += 1
     tokenz(l, i)
 
-def seperateLines(strList):
-	
+def convertToStmts(parsedList):
+    newList = list()
+    listToAdd = list()
+    while len(parsedList) > 0:
+        if parsedList[0] == ';':
+            newList.append(listToAdd)
+            listToAdd = list()
+        else:
+            listToAdd.append(parsedList[0])
+        parsedList.pop(0)
+    return newList
 
+# -------------------------------------------------------- #
+# Main Code Block
+# -------------------------------------------------------- #
 def main():
 	s = ''
 	if len(sys.argv) > 1:
@@ -106,12 +124,23 @@ def main():
 	else:
 		print 'Please run protoplasm with this format: protoplasm1.py arg1'
 		print 'arg1 being a .proto file'
-	
-	for line in f:
-		s += line + ' '
-	l = s.split()
-	print l
-	tokenz(l, 0)
-	print l
-	
-main()
+	if len(sys.argv) > 1:
+		for line in f:
+			s += line + ' '
+
+		program = protoplasm_parse.parse(s)
+		# Global of triples set up in protoplasm_interp
+		protoplasm_interp.gencode(program, 0)
+		print ""
+		print ""
+		print program
+		print ""
+		print ""
+		print ""
+		print ""
+		print protoplasm_interp.triples
+		print ""
+		print ""
+
+if __name__ == "__main__":
+	main()

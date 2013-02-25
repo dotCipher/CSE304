@@ -1,0 +1,9 @@
+http://www.dalkescientific.com/writings/NBN/parsing_with_ply.html
+
+https://bitbucket.org/eliben/pycparser
+
+https://bitbucket.org/eliben/pycparser/src/b169b693a1945fddf13a90cfba5bca22fb45d5a2/pycparser/c_parser.py?at=default
+
+http://blog.deliciousrobots.com/2010/3/24/a-simple-compiler-with-python-and-ply-step-1-parsing/
+
+http://www.dabeaz.com/ply/

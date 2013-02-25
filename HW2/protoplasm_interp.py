@@ -1,102 +1,92 @@
-# -------------------------------------------------------- #
-# Protoplasm 1 - Interpreter
-# -------------------------------------------------------- #
-# The Grammer for protoplasm is as follows:
-
-# Pgm = Program
-# Stmt = Statement
-# Asgn = Assignment
-# Prnt = Print
-# Rhs = Right hand side
-# AE = Assignment expression
-# T = Term
-# F = Factor
-# SumOp = Sum Operator
-# PrdOp = Product Operator
-
-# Pgm	-> Stmt Pgm
-# Pgm	-> Stmt
-# Stmt	-> Asgn
-# Stmt	-> Prnt
-# Asgn	-> var = Rhs ;
-# Prnt	-> print ( AE );
-# Rhs	-> input ( )
-# Rhs	-> AE
-# AE	-> T SumOp AE
-# AE	-> T
-# T		-> F PrdOp T
-# T		-> F
-# F		-> intconst
-# F		-> var
-# F		-> - F
-# F		-> ( AE )
-# SumOp	-> +
-# SumOp	-> -
-# PrdOp	-> *
-# PrdOp	-> /
-# PrdOp	-> %
-# -------------------------------------------------------- #
-# Imports and globals
-# -------------------------------------------------------- #
 import sys
-# -------------------------------------------------------- #
-# Main Code Block
-# -------------------------------------------------------- #
-class PROTO:
-	pass
-	
-class PGM(PROTO):
-    def __init__(self, f1, f2):
-        self.lchild = f1
-        self.rchild = f2
-	
-	@classmethod
-	def endSTMT(self, f):
-		self.child = f
+from protoplasm_parse import *
 
-class STMT(PROTO):
-	def __init__(self, f):
-		self.child = f
+triples = list()
 
-class ASSIGN(PROTO):
-	def __init__(self, f1, f2):
-        self.lchild = f1
-        self.rchild = f2
+#generates and returns intermediate code from AST
+def gencode(asTree, line):
 
-class PRINT(PROTO):
-	def __init__(self, f):
-        self.lchild = f
+    #PGM -> STMT PGM | STMT
+    if isinstance(asTree,PGM):
+        line = gencode(asTree.rchild, gencode(asTree.lchild, line) + 1)
+    #STMT -> ASSIGN | PRINT
+    elif isinstance(asTree,STMT):
+        line = gencode(asTree.child, line)
+    #ASSIGN -> VAR = RHS ;
+    elif isinstance(asTree,ASSIGN):
+        line = gencode(asTree.rchild, line)
+        triples.append((line + 1, '=', asTree.lchild.value, line))
+        line = line + 1
+    #PRINT -> print( AE );
+    elif isinstance(asTree,PRINT):
+        line = gencode(asTree.child, line)
+        triples.append((line + 1, 'print', None, line))
+        line = line + 1
+    #INPUT -> input()
+    elif isinstance(asTree,INPUT):
+        triples.append(line, 'input', None, None)
+    #RHS -> INPUT | AE
+    elif isinstance(asTree,RHS):
+        line = gencode(asTree.child, line)
+    #AE -> T SUMOP AE | T
+    elif isinstance(asTree,AE):
+        if isinstance(asTree.mchild, SUMOP):
+            line = gencode(asTree.rchild, line)
+            triples.append((line + 1, asTree.mchild.value, asTree.lchild.value, line))
+            line = line + 1
+        else:
+            line = gencode(asTree.lchild, line)
+    #T -> F PRODOP T | F
+    elif isinstance(asTree,T):
+        if isinstance(asTree.mchild, PRODOP):
+            line = gencode(asTree.rchild, line)
+            if isinstance(asTree.lchild.child, VAR) or isinstance(asTree.lchild.child, INTCONST):
+                triples.append((line + 1, asTree.mchild.value, asTree.lchild.child.value, line))
+            else:
+                line1 = gencode(asTree.lchild, line + 1)
+                triples.append((line1 + 1, asTree.mchild.value, line1, line))
+                line = line1
+            line = line + 1
+        else:
+            line = gencode(asTree.lchild, line)
+    #F -> - F | ( AE ) | INTCONST | VAR
+    elif isinstance(asTree,F):
+        if isinstance(asTree.child,F):
+            line = gencode(asTree.child, line)
+            triples.append((line + 1, 'minus', None, line))
+            line = line + 1
+        else:
+            line = gencode(asTree.child, line)
+    #INTCONST | VAR
+    elif isinstance(asTree,VAR) or isinstance(asTree,INTCONST):
+        triples.append((line, '=', asTree.value, None))
 
-class RHS(PROTO):
-	def __init__(self, f):
-        self.lchild = f
+    return line
 
-class AE(PROTO):
-	def __init__(self, f):
-        self.lchild = f
-	
-	@classmethod
-	def setSumOp(self, f1, f2, f3):
-		self.lchild = f1
-		self.mchild = f2
-		self.rchild = f3
+##def optimize():
+##
+##    changed = True
+##
+##    while changed:
+##        changed = False
 
-class T(PROTO):
-	def __init__(self, f):
-        self.lchild = f
-	
-	@classmethod
-	def setProdOp(self, f1, f2, f3):
-		self.lchild = f1
-		self.mchild = f2
-		self.rchild = f3
 
-class F(PROTO):
-	def __init__(self, f):
-        self.lchild = f
-	
-	@classmethod
-	def setProdOp(self, f1, f2, f3):
-		self.lchild = f1
-		self.mchild = f2
-		self.rchild = f3
+#program = PGM(STMT(ASSIGN(VAR('x'),
+#                          RHS(AE(T(F(INTCONST('4')),
+#                                   PRODOP('*'),
+#                                   T(F(VAR('y')),
+#                                     None,
+#                                     None)),
+#                                 None,
+#                                 None)))), PGM(STMT(ASSIGN(VAR('x'),
+#                          RHS(AE(T(F(F(INTCONST('4'))),
+#                                   PRODOP('*'),
+#                                   T(F(VAR('y')),
+#                                     None,
+#                                     None)),
+#                                 None,
+#                                None)))), None))
+#gencode(program, 0)
+
+#print triples
+
