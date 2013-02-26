@@ -1,0 +1,13 @@
+.text
+main:
+	li $v0, 5
+	syscall
+	move $t0, $v0
+	li $a0, 2
+	div $t0, $a0
+	mfhi $t1
+	add $a0, $t1, 0
+	li $v0, 1
+	syscall
+	li $v0, 10
+	syscall

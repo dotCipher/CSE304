@@ -44,6 +44,7 @@ import ply.yacc as yacc
 import protoplasm_parse
 import protoplasm_lex
 import protoplasm_interp
+import protoplasm_mips
 # -------------------------------------------------------- #
 # Functions
 # -------------------------------------------------------- #
@@ -127,10 +128,11 @@ def main():
 	if len(sys.argv) > 1:
 		for line in f:
 			s += line + ' '
-
+		
 		program = protoplasm_parse.parse(s)
 		# Global of triples set up in protoplasm_interp
 		protoplasm_interp.gencode(program, 0)
+		protoplasm_interp.optimize()
 		print ""
 		print ""
 		print program
@@ -141,6 +143,13 @@ def main():
 		print protoplasm_interp.triples
 		print ""
 		print ""
+		# Get file name to write too
+		i = sys.argv[1].rindex('.')
+		substr = sys.argv[1][:i]
+		filename = substr + ".asm"
+		# Generate MIPS from intermediate code
+		protoplasm_mips.make_asm_exec(filename, protoplasm_interp.triples)
+		print "Written out to file: %s" % filename
 
 if __name__ == "__main__":
 	main()

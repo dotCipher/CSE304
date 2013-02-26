@@ -24,15 +24,16 @@ def gencode(asTree, line):
         line = line + 1
     #INPUT -> input()
     elif isinstance(asTree,INPUT):
-        triples.append(line, 'input', None, None)
+        triples.append((line, 'input', None, None))
     #RHS -> INPUT | AE
     elif isinstance(asTree,RHS):
         line = gencode(asTree.child, line)
     #AE -> T SUMOP AE | T
     elif isinstance(asTree,AE):
         if isinstance(asTree.mchild, SUMOP):
-            line = gencode(asTree.rchild, line)
-            triples.append((line + 1, asTree.mchild.value, asTree.lchild.value, line))
+            line1 = gencode(asTree.lchild, line)
+            line = gencode(asTree.rchild, line1 + 1)
+            triples.append((line + 1, asTree.mchild.value, line1, line))
             line = line + 1
         else:
             line = gencode(asTree.lchild, line)
@@ -63,30 +64,83 @@ def gencode(asTree, line):
 
     return line
 
-##def optimize():
-##
-##    changed = True
-##
-##    while changed:
-##        changed = False
+def optimize():
 
+    i = 0
+    length = len(triples)
 
-#program = PGM(STMT(ASSIGN(VAR('x'),
-#                          RHS(AE(T(F(INTCONST('4')),
-#                                   PRODOP('*'),
-#                                   T(F(VAR('y')),
-#                                     None,
-#                                     None)),
-#                                 None,
-#                                 None)))), PGM(STMT(ASSIGN(VAR('x'),
-#                          RHS(AE(T(F(F(INTCONST('4'))),
-#                                   PRODOP('*'),
-#                                   T(F(VAR('y')),
-#                                     None,
-#                                     None)),
-#                                 None,
-#                                None)))), None))
-#gencode(program, 0)
+    while i < length:
 
-#print triples
+        #print triples
+        if triples[i][3] == None and not triples[i][1] == 'input':
+            j = i + 1
+            while not (triples[j][2] == triples[i][0] or
+                       triples[j][3] == triples[i][0]):
+                j = j + 1
+            if triples[j][2] == triples[i][0]:
+                triples.insert(j, (triples[j][0],
+                                   triples[j][1],
+                                   triples[i][2],
+                                   triples[j][3]))
+            elif triples[j][3] == triples[i][0]:
+                triples.insert(j, (triples[j][0],
+                                   triples[j][1],
+                                   triples[j][2],
+                                   triples[i][2]))
+            triples.pop(i)
+            triples.pop(j)
+            length = length - 1
+        elif not triples[i][2] == None and isinstance(triples[i][2], str) and isinstance(triples[i][3], str) and triples[i][2].isdigit() and triples[i][3].isdigit():
+                if triples[i][1] == '+':
+                    triples.insert(i, (triples[i][0],
+                                        '=',
+                                        str(int(float(triples[i][2])) +
+                                            int(float(triples[i][3]))),
+                                        None))
+                elif triples[i][1] == '-':
+                    triples.insert(i, (triples[i][0],
+                                        '=',
+                                        str(int(float(triples[i][2])) -
+                                            int(float(triples[i][3]))),
+                                        None))
+                elif triples[i][1] == '*':
+                    triples.insert(i, (triples[i][0],
+                                       '=',
+                                       str(int(float(triples[i][2])) *
+                                           int(float(triples[i][3]))),
+                                       None))
+                elif triples[i][1] == '/':
+                    triples.insert(i, (triples[i][0],
+                                       '=',
+                                       str(int(float(triples[i][2])) /
+                                           int(float(triples[i][3]))),
+                                       None))
+                elif triples[i][1] == '%':
+                    triples.insert(i, (triples[i][0],
+                                       '=',
+                                       str(int(float(triples[i][2])) %
+                                           int(float(triples[i][3]))),
+                                       None))
+                triples.pop(i + 1)
+        elif triples[i][1] == '=':
+            j = i + 1
+            while not (triples[j][2] == triples[i][2] or
+                       triples[j][3] == triples[i][2]):
+                j = j + 1
+            if triples[j][2] == triples[i][2]:
+                triples.insert(j, (triples[j][0],
+                                   triples[j][1],
+                                   triples[i][3],
+                                   triples[j][3]))
+            elif triples[j][3] == triples[i][2]:
+                triples.insert(j, (triples[j][0],
+                                   triples[j][1],
+                                   triples[j][2],
+                                   triples[i][3]))
+            triples.pop(i)
+            triples.pop(j)
+            length = length - 1
+        else:
+            i = i + 1
 
+    

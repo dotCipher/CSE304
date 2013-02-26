@@ -137,7 +137,9 @@ class VAR(PROTO):
 	def __repr__(self):
 		return "VAR(%r)" % (self.value)
 
-class INPUT(PROTO):
+class INPUT():
+	def __init__(self):
+		pass
 	def __repr__(self):
 		return "INPUT()"
 
@@ -184,7 +186,10 @@ def p_rhs(p):
 	rhs : INPUT LPAREN RPAREN
 	rhs : ae
 	"""
-	p[0] = RHS(p[1])
+	if p[1] == "input":
+		p[0] = RHS(INPUT())
+	else:
+		p[0] = RHS(p[1])
 
 def p_ae(p):
 	"""
@@ -241,7 +246,7 @@ def p_sumop(p):
 
 # Error rule for syntax errors
 def p_error(p):
-	print "Syntax Error! Exiting"
+	print "Syntax Error at %r on line %r" % (p.value, p.lineno)
 
 # Build parser to make AST
 proto_parser = yacc.yacc()
