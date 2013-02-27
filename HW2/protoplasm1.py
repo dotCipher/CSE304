@@ -138,18 +138,17 @@ def main():
 		#print program
 		#print ""
 		#print ""
-		#print ""
-		#print ""
-		#print protoplasm_interp.triples
-		#print ""
-		#print ""
+		print ""
+		print ""
+		print protoplasm_interp.triples
+		print ""
+		print ""
 		# Get file name to write too
 		i = sys.argv[1].rindex('.')
 		substr = sys.argv[1][:i]
 		filename = substr + ".asm"
 		# Generate MIPS from intermediate code
 		protoplasm_mips.make_asm_exec(filename, protoplasm_interp.triples)
-		print "Written out to file: %s" % filename
 
 if __name__ == "__main__":
 	main()
