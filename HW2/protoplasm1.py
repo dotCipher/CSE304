@@ -133,16 +133,16 @@ def main():
 		# Global of triples set up in protoplasm_interp
 		protoplasm_interp.gencode(program, 0)
 		protoplasm_interp.optimize()
-		print ""
-		print ""
-		print program
-		print ""
-		print ""
-		print ""
-		print ""
-		print protoplasm_interp.triples
-		print ""
-		print ""
+		#print ""
+		#print ""
+		#print program
+		#print ""
+		#print ""
+		#print ""
+		#print ""
+		#print protoplasm_interp.triples
+		#print ""
+		#print ""
 		# Get file name to write too
 		i = sys.argv[1].rindex('.')
 		substr = sys.argv[1][:i]
