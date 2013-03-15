@@ -1,0 +1,14 @@
+check = input();
+x = 0;
+y = 0;
+z = 0;
+if (check != 2) && (check != 3) then {
+	x = 1000;
+}
+if (check >= 4) || (check <= 6) then {
+	y = 330;
+}
+if !(!(check == 5)) then {
+	z = 7;
+}
+print(x+y+z);

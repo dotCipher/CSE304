@@ -1,0 +1,7 @@
+x = 2 + 9 - 1 / (20 % 18);
+y = input();
+if(y > 10) then {
+	print(x + y);
+} else {
+	print(x * y);
+}

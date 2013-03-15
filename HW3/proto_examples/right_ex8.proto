@@ -1,0 +1,19 @@
+x = input();
+y = input();
+if(x > y) then {
+	i = 0;
+	while(x > y) do {
+		i = i + 1;
+	}
+	print(i);
+}
+if(x < y) then {
+	i = 0;
+	while(x < y) do {
+		i = i + 1;
+	}
+	print(i);
+}
+if(x == y) then {
+	print(0);
+}

@@ -1,0 +1,503 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> pgm
+Rule 1     pgm -> stmt pgm
+Rule 2     pgm -> stmt
+Rule 3     stmt -> assign
+Rule 4     stmt -> print
+Rule 5     assign -> VAR EQUALS rhs SEMICOLON
+Rule 6     print -> PRINT LPAREN ae RPAREN SEMICOLON
+Rule 7     rhs -> INPUT LPAREN RPAREN
+Rule 8     rhs -> ae
+Rule 9     ae -> t sumop ae
+Rule 10    ae -> t
+Rule 11    t -> f prodop ae
+Rule 12    t -> f
+Rule 13    f -> INTCONST
+Rule 14    f -> VAR
+Rule 15    f -> MINUS f
+Rule 16    f -> LPAREN ae RPAREN
+Rule 17    prodop -> TIMES
+Rule 18    prodop -> DIVIDE
+Rule 19    prodop -> MOD
+Rule 20    sumop -> PLUS
+Rule 21    sumop -> MINUS
+
+Terminals, with rules where they appear
+
+DIVIDE               : 18
+EQUALS               : 5
+INPUT                : 7
+INTCONST             : 13
+LPAREN               : 6 7 16
+MINUS                : 15 21
+MOD                  : 19
+PLUS                 : 20
+PRINT                : 6
+RPAREN               : 6 7 16
+SEMICOLON            : 5 6
+TIMES                : 17
+VAR                  : 5 14
+error                : 
+
+Nonterminals, with rules where they appear
+
+ae                   : 6 8 9 11 16
+assign               : 3
+f                    : 11 12 15
+pgm                  : 1 0
+print                : 4
+prodop               : 11
+rhs                  : 5
+stmt                 : 1 2
+sumop                : 9
+t                    : 9 10
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . pgm
+    (1) pgm -> . stmt pgm
+    (2) pgm -> . stmt
+    (3) stmt -> . assign
+    (4) stmt -> . print
+    (5) assign -> . VAR EQUALS rhs SEMICOLON
+    (6) print -> . PRINT LPAREN ae RPAREN SEMICOLON
+
+    VAR             shift and go to state 4
+    PRINT           shift and go to state 1
+
+    pgm                            shift and go to state 2
+    stmt                           shift and go to state 3
+    print                          shift and go to state 5
+    assign                         shift and go to state 6
+
+state 1
+
+    (6) print -> PRINT . LPAREN ae RPAREN SEMICOLON
+
+    LPAREN          shift and go to state 7
+
+
+state 2
+
+    (0) S' -> pgm .
+
+
+
+state 3
+
+    (1) pgm -> stmt . pgm
+    (2) pgm -> stmt .
+    (1) pgm -> . stmt pgm
+    (2) pgm -> . stmt
+    (3) stmt -> . assign
+    (4) stmt -> . print
+    (5) assign -> . VAR EQUALS rhs SEMICOLON
+    (6) print -> . PRINT LPAREN ae RPAREN SEMICOLON
+
+    $end            reduce using rule 2 (pgm -> stmt .)
+    VAR             shift and go to state 4
+    PRINT           shift and go to state 1
+
+    pgm                            shift and go to state 8
+    stmt                           shift and go to state 3
+    print                          shift and go to state 5
+    assign                         shift and go to state 6
+
+state 4
+
+    (5) assign -> VAR . EQUALS rhs SEMICOLON
+
+    EQUALS          shift and go to state 9
+
+
+state 5
+
+    (4) stmt -> print .
+
+    VAR             reduce using rule 4 (stmt -> print .)
+    PRINT           reduce using rule 4 (stmt -> print .)
+    $end            reduce using rule 4 (stmt -> print .)
+
+
+state 6
+
+    (3) stmt -> assign .
+
+    VAR             reduce using rule 3 (stmt -> assign .)
+    PRINT           reduce using rule 3 (stmt -> assign .)
+    $end            reduce using rule 3 (stmt -> assign .)
+
+
+state 7
+
+    (6) print -> PRINT LPAREN . ae RPAREN SEMICOLON
+    (9) ae -> . t sumop ae
+    (10) ae -> . t
+    (11) t -> . f prodop ae
+    (12) t -> . f
+    (13) f -> . INTCONST
+    (14) f -> . VAR
+    (15) f -> . MINUS f
+    (16) f -> . LPAREN ae RPAREN
+
+    INTCONST        shift and go to state 11
+    VAR             shift and go to state 15
+    MINUS           shift and go to state 16
+    LPAREN          shift and go to state 13
+
+    ae                             shift and go to state 14
+    t                              shift and go to state 12
+    f                              shift and go to state 10
+
+state 8
+
+    (1) pgm -> stmt pgm .
+
+    $end            reduce using rule 1 (pgm -> stmt pgm .)
+
+
+state 9
+
+    (5) assign -> VAR EQUALS . rhs SEMICOLON
+    (7) rhs -> . INPUT LPAREN RPAREN
+    (8) rhs -> . ae
+    (9) ae -> . t sumop ae
+    (10) ae -> . t
+    (11) t -> . f prodop ae
+    (12) t -> . f
+    (13) f -> . INTCONST
+    (14) f -> . VAR
+    (15) f -> . MINUS f
+    (16) f -> . LPAREN ae RPAREN
+
+    INPUT           shift and go to state 18
+    INTCONST        shift and go to state 11
+    VAR             shift and go to state 15
+    MINUS           shift and go to state 16
+    LPAREN          shift and go to state 13
+
+    ae                             shift and go to state 19
+    f                              shift and go to state 10
+    rhs                            shift and go to state 17
+    t                              shift and go to state 12
+
+state 10
+
+    (11) t -> f . prodop ae
+    (12) t -> f .
+    (17) prodop -> . TIMES
+    (18) prodop -> . DIVIDE
+    (19) prodop -> . MOD
+
+    PLUS            reduce using rule 12 (t -> f .)
+    MINUS           reduce using rule 12 (t -> f .)
+    RPAREN          reduce using rule 12 (t -> f .)
+    SEMICOLON       reduce using rule 12 (t -> f .)
+    TIMES           shift and go to state 22
+    DIVIDE          shift and go to state 21
+    MOD             shift and go to state 23
+
+    prodop                         shift and go to state 20
+
+state 11
+
+    (13) f -> INTCONST .
+
+    TIMES           reduce using rule 13 (f -> INTCONST .)
+    DIVIDE          reduce using rule 13 (f -> INTCONST .)
+    MOD             reduce using rule 13 (f -> INTCONST .)
+    PLUS            reduce using rule 13 (f -> INTCONST .)
+    MINUS           reduce using rule 13 (f -> INTCONST .)
+    RPAREN          reduce using rule 13 (f -> INTCONST .)
+    SEMICOLON       reduce using rule 13 (f -> INTCONST .)
+
+
+state 12
+
+    (9) ae -> t . sumop ae
+    (10) ae -> t .
+    (20) sumop -> . PLUS
+    (21) sumop -> . MINUS
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    RPAREN          reduce using rule 10 (ae -> t .)
+    SEMICOLON       reduce using rule 10 (ae -> t .)
+    PLUS            shift and go to state 26
+    MINUS           shift and go to state 25
+
+  ! PLUS            [ reduce using rule 10 (ae -> t .) ]
+  ! MINUS           [ reduce using rule 10 (ae -> t .) ]
+
+    sumop                          shift and go to state 24
+
+state 13
+
+    (16) f -> LPAREN . ae RPAREN
+    (9) ae -> . t sumop ae
+    (10) ae -> . t
+    (11) t -> . f prodop ae
+    (12) t -> . f
+    (13) f -> . INTCONST
+    (14) f -> . VAR
+    (15) f -> . MINUS f
+    (16) f -> . LPAREN ae RPAREN
+
+    INTCONST        shift and go to state 11
+    VAR             shift and go to state 15
+    MINUS           shift and go to state 16
+    LPAREN          shift and go to state 13
+
+    ae                             shift and go to state 27
+    t                              shift and go to state 12
+    f                              shift and go to state 10
+
+state 14
+
+    (6) print -> PRINT LPAREN ae . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 28
+
+
+state 15
+
+    (14) f -> VAR .
+
+    TIMES           reduce using rule 14 (f -> VAR .)
+    DIVIDE          reduce using rule 14 (f -> VAR .)
+    MOD             reduce using rule 14 (f -> VAR .)
+    PLUS            reduce using rule 14 (f -> VAR .)
+    MINUS           reduce using rule 14 (f -> VAR .)
+    RPAREN          reduce using rule 14 (f -> VAR .)
+    SEMICOLON       reduce using rule 14 (f -> VAR .)
+
+
+state 16
+
+    (15) f -> MINUS . f
+    (13) f -> . INTCONST
+    (14) f -> . VAR
+    (15) f -> . MINUS f
+    (16) f -> . LPAREN ae RPAREN
+
+    INTCONST        shift and go to state 11
+    VAR             shift and go to state 15
+    MINUS           shift and go to state 16
+    LPAREN          shift and go to state 13
+
+    f                              shift and go to state 29
+
+state 17
+
+    (5) assign -> VAR EQUALS rhs . SEMICOLON
+
+    SEMICOLON       shift and go to state 30
+
+
+state 18
+
+    (7) rhs -> INPUT . LPAREN RPAREN
+
+    LPAREN          shift and go to state 31
+
+
+state 19
+
+    (8) rhs -> ae .
+
+    SEMICOLON       reduce using rule 8 (rhs -> ae .)
+
+
+state 20
+
+    (11) t -> f prodop . ae
+    (9) ae -> . t sumop ae
+    (10) ae -> . t
+    (11) t -> . f prodop ae
+    (12) t -> . f
+    (13) f -> . INTCONST
+    (14) f -> . VAR
+    (15) f -> . MINUS f
+    (16) f -> . LPAREN ae RPAREN
+
+    INTCONST        shift and go to state 11
+    VAR             shift and go to state 15
+    MINUS           shift and go to state 16
+    LPAREN          shift and go to state 13
+
+    ae                             shift and go to state 32
+    t                              shift and go to state 12
+    f                              shift and go to state 10
+
+state 21
+
+    (18) prodop -> DIVIDE .
+
+    INTCONST        reduce using rule 18 (prodop -> DIVIDE .)
+    VAR             reduce using rule 18 (prodop -> DIVIDE .)
+    MINUS           reduce using rule 18 (prodop -> DIVIDE .)
+    LPAREN          reduce using rule 18 (prodop -> DIVIDE .)
+
+
+state 22
+
+    (17) prodop -> TIMES .
+
+    INTCONST        reduce using rule 17 (prodop -> TIMES .)
+    VAR             reduce using rule 17 (prodop -> TIMES .)
+    MINUS           reduce using rule 17 (prodop -> TIMES .)
+    LPAREN          reduce using rule 17 (prodop -> TIMES .)
+
+
+state 23
+
+    (19) prodop -> MOD .
+
+    INTCONST        reduce using rule 19 (prodop -> MOD .)
+    VAR             reduce using rule 19 (prodop -> MOD .)
+    MINUS           reduce using rule 19 (prodop -> MOD .)
+    LPAREN          reduce using rule 19 (prodop -> MOD .)
+
+
+state 24
+
+    (9) ae -> t sumop . ae
+    (9) ae -> . t sumop ae
+    (10) ae -> . t
+    (11) t -> . f prodop ae
+    (12) t -> . f
+    (13) f -> . INTCONST
+    (14) f -> . VAR
+    (15) f -> . MINUS f
+    (16) f -> . LPAREN ae RPAREN
+
+    INTCONST        shift and go to state 11
+    VAR             shift and go to state 15
+    MINUS           shift and go to state 16
+    LPAREN          shift and go to state 13
+
+    ae                             shift and go to state 33
+    t                              shift and go to state 12
+    f                              shift and go to state 10
+
+state 25
+
+    (21) sumop -> MINUS .
+
+    INTCONST        reduce using rule 21 (sumop -> MINUS .)
+    VAR             reduce using rule 21 (sumop -> MINUS .)
+    MINUS           reduce using rule 21 (sumop -> MINUS .)
+    LPAREN          reduce using rule 21 (sumop -> MINUS .)
+
+
+state 26
+
+    (20) sumop -> PLUS .
+
+    INTCONST        reduce using rule 20 (sumop -> PLUS .)
+    VAR             reduce using rule 20 (sumop -> PLUS .)
+    MINUS           reduce using rule 20 (sumop -> PLUS .)
+    LPAREN          reduce using rule 20 (sumop -> PLUS .)
+
+
+state 27
+
+    (16) f -> LPAREN ae . RPAREN
+
+    RPAREN          shift and go to state 34
+
+
+state 28
+
+    (6) print -> PRINT LPAREN ae RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 35
+
+
+state 29
+
+    (15) f -> MINUS f .
+
+    TIMES           reduce using rule 15 (f -> MINUS f .)
+    DIVIDE          reduce using rule 15 (f -> MINUS f .)
+    MOD             reduce using rule 15 (f -> MINUS f .)
+    PLUS            reduce using rule 15 (f -> MINUS f .)
+    MINUS           reduce using rule 15 (f -> MINUS f .)
+    RPAREN          reduce using rule 15 (f -> MINUS f .)
+    SEMICOLON       reduce using rule 15 (f -> MINUS f .)
+
+
+state 30
+
+    (5) assign -> VAR EQUALS rhs SEMICOLON .
+
+    VAR             reduce using rule 5 (assign -> VAR EQUALS rhs SEMICOLON .)
+    PRINT           reduce using rule 5 (assign -> VAR EQUALS rhs SEMICOLON .)
+    $end            reduce using rule 5 (assign -> VAR EQUALS rhs SEMICOLON .)
+
+
+state 31
+
+    (7) rhs -> INPUT LPAREN . RPAREN
+
+    RPAREN          shift and go to state 36
+
+
+state 32
+
+    (11) t -> f prodop ae .
+
+    PLUS            reduce using rule 11 (t -> f prodop ae .)
+    MINUS           reduce using rule 11 (t -> f prodop ae .)
+    RPAREN          reduce using rule 11 (t -> f prodop ae .)
+    SEMICOLON       reduce using rule 11 (t -> f prodop ae .)
+
+
+state 33
+
+    (9) ae -> t sumop ae .
+
+    RPAREN          reduce using rule 9 (ae -> t sumop ae .)
+    PLUS            reduce using rule 9 (ae -> t sumop ae .)
+    MINUS           reduce using rule 9 (ae -> t sumop ae .)
+    SEMICOLON       reduce using rule 9 (ae -> t sumop ae .)
+
+
+state 34
+
+    (16) f -> LPAREN ae RPAREN .
+
+    TIMES           reduce using rule 16 (f -> LPAREN ae RPAREN .)
+    DIVIDE          reduce using rule 16 (f -> LPAREN ae RPAREN .)
+    MOD             reduce using rule 16 (f -> LPAREN ae RPAREN .)
+    PLUS            reduce using rule 16 (f -> LPAREN ae RPAREN .)
+    MINUS           reduce using rule 16 (f -> LPAREN ae RPAREN .)
+    RPAREN          reduce using rule 16 (f -> LPAREN ae RPAREN .)
+    SEMICOLON       reduce using rule 16 (f -> LPAREN ae RPAREN .)
+
+
+state 35
+
+    (6) print -> PRINT LPAREN ae RPAREN SEMICOLON .
+
+    VAR             reduce using rule 6 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    PRINT           reduce using rule 6 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    $end            reduce using rule 6 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+
+
+state 36
+
+    (7) rhs -> INPUT LPAREN RPAREN .
+
+    SEMICOLON       reduce using rule 7 (rhs -> INPUT LPAREN RPAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 12 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 12 resolved as shift

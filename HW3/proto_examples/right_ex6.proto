@@ -1,0 +1,15 @@
+a = 1;
+b = 0;
+if(a && a) then {
+	print(11);
+}
+if(a && b) then {
+	print(-1);
+}
+if(a || b) then {
+	print(110);
+}
+if(b || b) then {
+	print(-1);
+}
+

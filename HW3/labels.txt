@@ -1,0 +1,8 @@
+lset_eq = ['EQ_EQ_0','EQ_NE_0','EQ_RET_0']
+lset_ne = ['NE_NE_0','NE_EQ_0','NE_RET_0']
+lset_gt = ['GT_GT_0','GT_LE_0','GT_RET_0']
+lset_lt = ['LT_LT_0','LT_GE_0','LT_RET_0']
+lset_ge = ['GE_GE_0','GE_LT_0','GE_RET_0']
+lset_le = ['LE_LE_0','LE_GT_0','LE_RET_0']
+lset_if = ['IF_TRUE_0', 'IF_FALSE_0','IF_RET_0']
+lset_while = ['WHILE_TRUE_0', 'WHILE_FALSE_0','WHILE_RET_0']

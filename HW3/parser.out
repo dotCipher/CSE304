@@ -1,0 +1,1224 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> pgm
+Rule 1     pgm -> stmtseq
+Rule 2     stmtseq -> stmt stmtseq
+Rule 3     stmtseq -> stmt
+Rule 4     stmt -> assign
+Rule 5     stmt -> print
+Rule 6     stmt -> block
+Rule 7     stmt -> if
+Rule 8     stmt -> while
+Rule 9     assign -> ID EQUALS rhs SEMICOLON
+Rule 10    print -> PRINT LPAREN ae RPAREN SEMICOLON
+Rule 11    block -> LBRACE stmtseq RBRACE
+Rule 12    if -> IF ae THEN stmt ELSE stmt
+Rule 13    if -> IF ae THEN stmt
+Rule 14    while -> WHILE ae DO stmt
+Rule 15    rhs -> INPUT LPAREN RPAREN
+Rule 16    rhs -> ae
+Rule 17    ae -> ae binop ae
+Rule 18    ae -> unop ae
+Rule 19    ae -> LPAREN ae RPAREN
+Rule 20    ae -> INTCONST
+Rule 21    ae -> ID
+Rule 22    binop -> PLUS
+Rule 23    binop -> MINUS
+Rule 24    binop -> TIMES
+Rule 25    binop -> DIVIDE
+Rule 26    binop -> MOD
+Rule 27    binop -> LAND
+Rule 28    binop -> LOR
+Rule 29    binop -> EQ
+Rule 30    binop -> NE
+Rule 31    binop -> LT
+Rule 32    binop -> LE
+Rule 33    binop -> GT
+Rule 34    binop -> GE
+Rule 35    unop -> NOT
+Rule 36    unop -> MINUS
+
+Terminals, with rules where they appear
+
+DIVIDE               : 25
+DO                   : 14
+ELSE                 : 12
+EQ                   : 29
+EQUALS               : 9
+GE                   : 34
+GT                   : 33
+ID                   : 9 21
+IF                   : 12 13
+INPUT                : 15
+INTCONST             : 20
+LAND                 : 27
+LBRACE               : 11
+LE                   : 32
+LOR                  : 28
+LPAREN               : 10 15 19
+LT                   : 31
+MINUS                : 23 36
+MOD                  : 26
+NE                   : 30
+NOT                  : 35
+PLUS                 : 22
+PRINT                : 10
+RBRACE               : 11
+RPAREN               : 10 15 19
+SEMICOLON            : 9 10
+THEN                 : 12 13
+TIMES                : 24
+WHILE                : 14
+error                : 
+
+Nonterminals, with rules where they appear
+
+ae                   : 10 12 13 14 16 17 17 18 19
+assign               : 4
+binop                : 17
+block                : 6
+if                   : 7
+pgm                  : 0
+print                : 5
+rhs                  : 9
+stmt                 : 2 3 12 12 13 14
+stmtseq              : 1 2 11
+unop                 : 18
+while                : 8
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . pgm
+    (1) pgm -> . stmtseq
+    (2) stmtseq -> . stmt stmtseq
+    (3) stmtseq -> . stmt
+    (4) stmt -> . assign
+    (5) stmt -> . print
+    (6) stmt -> . block
+    (7) stmt -> . if
+    (8) stmt -> . while
+    (9) assign -> . ID EQUALS rhs SEMICOLON
+    (10) print -> . PRINT LPAREN ae RPAREN SEMICOLON
+    (11) block -> . LBRACE stmtseq RBRACE
+    (12) if -> . IF ae THEN stmt ELSE stmt
+    (13) if -> . IF ae THEN stmt
+    (14) while -> . WHILE ae DO stmt
+
+    ID              shift and go to state 8
+    PRINT           shift and go to state 4
+    LBRACE          shift and go to state 10
+    IF              shift and go to state 9
+    WHILE           shift and go to state 3
+
+    pgm                            shift and go to state 1
+    stmt                           shift and go to state 7
+    stmtseq                        shift and go to state 2
+    while                          shift and go to state 11
+    print                          shift and go to state 6
+    assign                         shift and go to state 12
+    block                          shift and go to state 13
+    if                             shift and go to state 5
+
+state 1
+
+    (0) S' -> pgm .
+
+
+
+state 2
+
+    (1) pgm -> stmtseq .
+
+    $end            reduce using rule 1 (pgm -> stmtseq .)
+
+
+state 3
+
+    (14) while -> WHILE . ae DO stmt
+    (17) ae -> . ae binop ae
+    (18) ae -> . unop ae
+    (19) ae -> . LPAREN ae RPAREN
+    (20) ae -> . INTCONST
+    (21) ae -> . ID
+    (35) unop -> . NOT
+    (36) unop -> . MINUS
+
+    LPAREN          shift and go to state 18
+    INTCONST        shift and go to state 19
+    ID              shift and go to state 20
+    NOT             shift and go to state 17
+    MINUS           shift and go to state 16
+
+    unop                           shift and go to state 14
+    ae                             shift and go to state 15
+
+state 4
+
+    (10) print -> PRINT . LPAREN ae RPAREN SEMICOLON
+
+    LPAREN          shift and go to state 21
+
+
+state 5
+
+    (7) stmt -> if .
+
+    ID              reduce using rule 7 (stmt -> if .)
+    PRINT           reduce using rule 7 (stmt -> if .)
+    LBRACE          reduce using rule 7 (stmt -> if .)
+    IF              reduce using rule 7 (stmt -> if .)
+    WHILE           reduce using rule 7 (stmt -> if .)
+    $end            reduce using rule 7 (stmt -> if .)
+    RBRACE          reduce using rule 7 (stmt -> if .)
+    ELSE            reduce using rule 7 (stmt -> if .)
+
+
+state 6
+
+    (5) stmt -> print .
+
+    ID              reduce using rule 5 (stmt -> print .)
+    PRINT           reduce using rule 5 (stmt -> print .)
+    LBRACE          reduce using rule 5 (stmt -> print .)
+    IF              reduce using rule 5 (stmt -> print .)
+    WHILE           reduce using rule 5 (stmt -> print .)
+    $end            reduce using rule 5 (stmt -> print .)
+    RBRACE          reduce using rule 5 (stmt -> print .)
+    ELSE            reduce using rule 5 (stmt -> print .)
+
+
+state 7
+
+    (2) stmtseq -> stmt . stmtseq
+    (3) stmtseq -> stmt .
+    (2) stmtseq -> . stmt stmtseq
+    (3) stmtseq -> . stmt
+    (4) stmt -> . assign
+    (5) stmt -> . print
+    (6) stmt -> . block
+    (7) stmt -> . if
+    (8) stmt -> . while
+    (9) assign -> . ID EQUALS rhs SEMICOLON
+    (10) print -> . PRINT LPAREN ae RPAREN SEMICOLON
+    (11) block -> . LBRACE stmtseq RBRACE
+    (12) if -> . IF ae THEN stmt ELSE stmt
+    (13) if -> . IF ae THEN stmt
+    (14) while -> . WHILE ae DO stmt
+
+    $end            reduce using rule 3 (stmtseq -> stmt .)
+    RBRACE          reduce using rule 3 (stmtseq -> stmt .)
+    ID              shift and go to state 8
+    PRINT           shift and go to state 4
+    LBRACE          shift and go to state 10
+    IF              shift and go to state 9
+    WHILE           shift and go to state 3
+
+    stmt                           shift and go to state 7
+    stmtseq                        shift and go to state 22
+    while                          shift and go to state 11
+    print                          shift and go to state 6
+    assign                         shift and go to state 12
+    block                          shift and go to state 13
+    if                             shift and go to state 5
+
+state 8
+
+    (9) assign -> ID . EQUALS rhs SEMICOLON
+
+    EQUALS          shift and go to state 23
+
+
+state 9
+
+    (12) if -> IF . ae THEN stmt ELSE stmt
+    (13) if -> IF . ae THEN stmt
+    (17) ae -> . ae binop ae
+    (18) ae -> . unop ae
+    (19) ae -> . LPAREN ae RPAREN
+    (20) ae -> . INTCONST
+    (21) ae -> . ID
+    (35) unop -> . NOT
+    (36) unop -> . MINUS
+
+    LPAREN          shift and go to state 18
+    INTCONST        shift and go to state 19
+    ID              shift and go to state 20
+    NOT             shift and go to state 17
+    MINUS           shift and go to state 16
+
+    unop                           shift and go to state 14
+    ae                             shift and go to state 24
+
+state 10
+
+    (11) block -> LBRACE . stmtseq RBRACE
+    (2) stmtseq -> . stmt stmtseq
+    (3) stmtseq -> . stmt
+    (4) stmt -> . assign
+    (5) stmt -> . print
+    (6) stmt -> . block
+    (7) stmt -> . if
+    (8) stmt -> . while
+    (9) assign -> . ID EQUALS rhs SEMICOLON
+    (10) print -> . PRINT LPAREN ae RPAREN SEMICOLON
+    (11) block -> . LBRACE stmtseq RBRACE
+    (12) if -> . IF ae THEN stmt ELSE stmt
+    (13) if -> . IF ae THEN stmt
+    (14) while -> . WHILE ae DO stmt
+
+    ID              shift and go to state 8
+    PRINT           shift and go to state 4
+    LBRACE          shift and go to state 10
+    IF              shift and go to state 9
+    WHILE           shift and go to state 3
+
+    stmt                           shift and go to state 7
+    stmtseq                        shift and go to state 25
+    while                          shift and go to state 11
+    print                          shift and go to state 6
+    assign                         shift and go to state 12
+    block                          shift and go to state 13
+    if                             shift and go to state 5
+
+state 11
+
+    (8) stmt -> while .
+
+    ID              reduce using rule 8 (stmt -> while .)
+    PRINT           reduce using rule 8 (stmt -> while .)
+    LBRACE          reduce using rule 8 (stmt -> while .)
+    IF              reduce using rule 8 (stmt -> while .)
+    WHILE           reduce using rule 8 (stmt -> while .)
+    $end            reduce using rule 8 (stmt -> while .)
+    RBRACE          reduce using rule 8 (stmt -> while .)
+    ELSE            reduce using rule 8 (stmt -> while .)
+
+
+state 12
+
+    (4) stmt -> assign .
+
+    ID              reduce using rule 4 (stmt -> assign .)
+    PRINT           reduce using rule 4 (stmt -> assign .)
+    LBRACE          reduce using rule 4 (stmt -> assign .)
+    IF              reduce using rule 4 (stmt -> assign .)
+    WHILE           reduce using rule 4 (stmt -> assign .)
+    $end            reduce using rule 4 (stmt -> assign .)
+    RBRACE          reduce using rule 4 (stmt -> assign .)
+    ELSE            reduce using rule 4 (stmt -> assign .)
+
+
+state 13
+
+    (6) stmt -> block .
+
+    ID              reduce using rule 6 (stmt -> block .)
+    PRINT           reduce using rule 6 (stmt -> block .)
+    LBRACE          reduce using rule 6 (stmt -> block .)
+    IF              reduce using rule 6 (stmt -> block .)
+    WHILE           reduce using rule 6 (stmt -> block .)
+    $end            reduce using rule 6 (stmt -> block .)
+    RBRACE          reduce using rule 6 (stmt -> block .)
+    ELSE            reduce using rule 6 (stmt -> block .)
+
+
+state 14
+
+    (18) ae -> unop . ae
+    (17) ae -> . ae binop ae
+    (18) ae -> . unop ae
+    (19) ae -> . LPAREN ae RPAREN
+    (20) ae -> . INTCONST
+    (21) ae -> . ID
+    (35) unop -> . NOT
+    (36) unop -> . MINUS
+
+    LPAREN          shift and go to state 18
+    INTCONST        shift and go to state 19
+    ID              shift and go to state 20
+    NOT             shift and go to state 17
+    MINUS           shift and go to state 16
+
+    unop                           shift and go to state 14
+    ae                             shift and go to state 26
+
+state 15
+
+    (14) while -> WHILE ae . DO stmt
+    (17) ae -> ae . binop ae
+    (22) binop -> . PLUS
+    (23) binop -> . MINUS
+    (24) binop -> . TIMES
+    (25) binop -> . DIVIDE
+    (26) binop -> . MOD
+    (27) binop -> . LAND
+    (28) binop -> . LOR
+    (29) binop -> . EQ
+    (30) binop -> . NE
+    (31) binop -> . LT
+    (32) binop -> . LE
+    (33) binop -> . GT
+    (34) binop -> . GE
+
+    DO              shift and go to state 27
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 40
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 30
+    MOD             shift and go to state 41
+    LAND            shift and go to state 29
+    LOR             shift and go to state 36
+    EQ              shift and go to state 39
+    NE              shift and go to state 34
+    LT              shift and go to state 33
+    LE              shift and go to state 37
+    GT              shift and go to state 28
+    GE              shift and go to state 32
+
+    binop                          shift and go to state 31
+
+state 16
+
+    (36) unop -> MINUS .
+
+    LPAREN          reduce using rule 36 (unop -> MINUS .)
+    INTCONST        reduce using rule 36 (unop -> MINUS .)
+    ID              reduce using rule 36 (unop -> MINUS .)
+    NOT             reduce using rule 36 (unop -> MINUS .)
+    MINUS           reduce using rule 36 (unop -> MINUS .)
+
+
+state 17
+
+    (35) unop -> NOT .
+
+    LPAREN          reduce using rule 35 (unop -> NOT .)
+    INTCONST        reduce using rule 35 (unop -> NOT .)
+    ID              reduce using rule 35 (unop -> NOT .)
+    NOT             reduce using rule 35 (unop -> NOT .)
+    MINUS           reduce using rule 35 (unop -> NOT .)
+
+
+state 18
+
+    (19) ae -> LPAREN . ae RPAREN
+    (17) ae -> . ae binop ae
+    (18) ae -> . unop ae
+    (19) ae -> . LPAREN ae RPAREN
+    (20) ae -> . INTCONST
+    (21) ae -> . ID
+    (35) unop -> . NOT
+    (36) unop -> . MINUS
+
+    LPAREN          shift and go to state 18
+    INTCONST        shift and go to state 19
+    ID              shift and go to state 20
+    NOT             shift and go to state 17
+    MINUS           shift and go to state 16
+
+    unop                           shift and go to state 14
+    ae                             shift and go to state 42
+
+state 19
+
+    (20) ae -> INTCONST .
+
+    PLUS            reduce using rule 20 (ae -> INTCONST .)
+    MINUS           reduce using rule 20 (ae -> INTCONST .)
+    TIMES           reduce using rule 20 (ae -> INTCONST .)
+    DIVIDE          reduce using rule 20 (ae -> INTCONST .)
+    MOD             reduce using rule 20 (ae -> INTCONST .)
+    LAND            reduce using rule 20 (ae -> INTCONST .)
+    LOR             reduce using rule 20 (ae -> INTCONST .)
+    EQ              reduce using rule 20 (ae -> INTCONST .)
+    NE              reduce using rule 20 (ae -> INTCONST .)
+    LT              reduce using rule 20 (ae -> INTCONST .)
+    LE              reduce using rule 20 (ae -> INTCONST .)
+    GT              reduce using rule 20 (ae -> INTCONST .)
+    GE              reduce using rule 20 (ae -> INTCONST .)
+    SEMICOLON       reduce using rule 20 (ae -> INTCONST .)
+    DO              reduce using rule 20 (ae -> INTCONST .)
+    THEN            reduce using rule 20 (ae -> INTCONST .)
+    RPAREN          reduce using rule 20 (ae -> INTCONST .)
+
+
+state 20
+
+    (21) ae -> ID .
+
+    PLUS            reduce using rule 21 (ae -> ID .)
+    MINUS           reduce using rule 21 (ae -> ID .)
+    TIMES           reduce using rule 21 (ae -> ID .)
+    DIVIDE          reduce using rule 21 (ae -> ID .)
+    MOD             reduce using rule 21 (ae -> ID .)
+    LAND            reduce using rule 21 (ae -> ID .)
+    LOR             reduce using rule 21 (ae -> ID .)
+    EQ              reduce using rule 21 (ae -> ID .)
+    NE              reduce using rule 21 (ae -> ID .)
+    LT              reduce using rule 21 (ae -> ID .)
+    LE              reduce using rule 21 (ae -> ID .)
+    GT              reduce using rule 21 (ae -> ID .)
+    GE              reduce using rule 21 (ae -> ID .)
+    SEMICOLON       reduce using rule 21 (ae -> ID .)
+    DO              reduce using rule 21 (ae -> ID .)
+    THEN            reduce using rule 21 (ae -> ID .)
+    RPAREN          reduce using rule 21 (ae -> ID .)
+
+
+state 21
+
+    (10) print -> PRINT LPAREN . ae RPAREN SEMICOLON
+    (17) ae -> . ae binop ae
+    (18) ae -> . unop ae
+    (19) ae -> . LPAREN ae RPAREN
+    (20) ae -> . INTCONST
+    (21) ae -> . ID
+    (35) unop -> . NOT
+    (36) unop -> . MINUS
+
+    LPAREN          shift and go to state 18
+    INTCONST        shift and go to state 19
+    ID              shift and go to state 20
+    NOT             shift and go to state 17
+    MINUS           shift and go to state 16
+
+    unop                           shift and go to state 14
+    ae                             shift and go to state 43
+
+state 22
+
+    (2) stmtseq -> stmt stmtseq .
+
+    $end            reduce using rule 2 (stmtseq -> stmt stmtseq .)
+    RBRACE          reduce using rule 2 (stmtseq -> stmt stmtseq .)
+
+
+state 23
+
+    (9) assign -> ID EQUALS . rhs SEMICOLON
+    (15) rhs -> . INPUT LPAREN RPAREN
+    (16) rhs -> . ae
+    (17) ae -> . ae binop ae
+    (18) ae -> . unop ae
+    (19) ae -> . LPAREN ae RPAREN
+    (20) ae -> . INTCONST
+    (21) ae -> . ID
+    (35) unop -> . NOT
+    (36) unop -> . MINUS
+
+    INPUT           shift and go to state 45
+    LPAREN          shift and go to state 18
+    INTCONST        shift and go to state 19
+    ID              shift and go to state 20
+    NOT             shift and go to state 17
+    MINUS           shift and go to state 16
+
+    unop                           shift and go to state 14
+    rhs                            shift and go to state 44
+    ae                             shift and go to state 46
+
+state 24
+
+    (12) if -> IF ae . THEN stmt ELSE stmt
+    (13) if -> IF ae . THEN stmt
+    (17) ae -> ae . binop ae
+    (22) binop -> . PLUS
+    (23) binop -> . MINUS
+    (24) binop -> . TIMES
+    (25) binop -> . DIVIDE
+    (26) binop -> . MOD
+    (27) binop -> . LAND
+    (28) binop -> . LOR
+    (29) binop -> . EQ
+    (30) binop -> . NE
+    (31) binop -> . LT
+    (32) binop -> . LE
+    (33) binop -> . GT
+    (34) binop -> . GE
+
+    THEN            shift and go to state 47
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 40
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 30
+    MOD             shift and go to state 41
+    LAND            shift and go to state 29
+    LOR             shift and go to state 36
+    EQ              shift and go to state 39
+    NE              shift and go to state 34
+    LT              shift and go to state 33
+    LE              shift and go to state 37
+    GT              shift and go to state 28
+    GE              shift and go to state 32
+
+    binop                          shift and go to state 31
+
+state 25
+
+    (11) block -> LBRACE stmtseq . RBRACE
+
+    RBRACE          shift and go to state 48
+
+
+state 26
+
+    (18) ae -> unop ae .
+    (17) ae -> ae . binop ae
+    (22) binop -> . PLUS
+    (23) binop -> . MINUS
+    (24) binop -> . TIMES
+    (25) binop -> . DIVIDE
+    (26) binop -> . MOD
+    (27) binop -> . LAND
+    (28) binop -> . LOR
+    (29) binop -> . EQ
+    (30) binop -> . NE
+    (31) binop -> . LT
+    (32) binop -> . LE
+    (33) binop -> . GT
+    (34) binop -> . GE
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for LAND resolved as shift
+  ! shift/reduce conflict for LOR resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for LT resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GT resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+    SEMICOLON       reduce using rule 18 (ae -> unop ae .)
+    DO              reduce using rule 18 (ae -> unop ae .)
+    THEN            reduce using rule 18 (ae -> unop ae .)
+    RPAREN          reduce using rule 18 (ae -> unop ae .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 40
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 30
+    MOD             shift and go to state 41
+    LAND            shift and go to state 29
+    LOR             shift and go to state 36
+    EQ              shift and go to state 39
+    NE              shift and go to state 34
+    LT              shift and go to state 33
+    LE              shift and go to state 37
+    GT              shift and go to state 28
+    GE              shift and go to state 32
+
+  ! PLUS            [ reduce using rule 18 (ae -> unop ae .) ]
+  ! MINUS           [ reduce using rule 18 (ae -> unop ae .) ]
+  ! TIMES           [ reduce using rule 18 (ae -> unop ae .) ]
+  ! DIVIDE          [ reduce using rule 18 (ae -> unop ae .) ]
+  ! MOD             [ reduce using rule 18 (ae -> unop ae .) ]
+  ! LAND            [ reduce using rule 18 (ae -> unop ae .) ]
+  ! LOR             [ reduce using rule 18 (ae -> unop ae .) ]
+  ! EQ              [ reduce using rule 18 (ae -> unop ae .) ]
+  ! NE              [ reduce using rule 18 (ae -> unop ae .) ]
+  ! LT              [ reduce using rule 18 (ae -> unop ae .) ]
+  ! LE              [ reduce using rule 18 (ae -> unop ae .) ]
+  ! GT              [ reduce using rule 18 (ae -> unop ae .) ]
+  ! GE              [ reduce using rule 18 (ae -> unop ae .) ]
+
+    binop                          shift and go to state 31
+
+state 27
+
+    (14) while -> WHILE ae DO . stmt
+    (4) stmt -> . assign
+    (5) stmt -> . print
+    (6) stmt -> . block
+    (7) stmt -> . if
+    (8) stmt -> . while
+    (9) assign -> . ID EQUALS rhs SEMICOLON
+    (10) print -> . PRINT LPAREN ae RPAREN SEMICOLON
+    (11) block -> . LBRACE stmtseq RBRACE
+    (12) if -> . IF ae THEN stmt ELSE stmt
+    (13) if -> . IF ae THEN stmt
+    (14) while -> . WHILE ae DO stmt
+
+    ID              shift and go to state 8
+    PRINT           shift and go to state 4
+    LBRACE          shift and go to state 10
+    IF              shift and go to state 9
+    WHILE           shift and go to state 3
+
+    stmt                           shift and go to state 49
+    while                          shift and go to state 11
+    print                          shift and go to state 6
+    assign                         shift and go to state 12
+    block                          shift and go to state 13
+    if                             shift and go to state 5
+
+state 28
+
+    (33) binop -> GT .
+
+    LPAREN          reduce using rule 33 (binop -> GT .)
+    INTCONST        reduce using rule 33 (binop -> GT .)
+    ID              reduce using rule 33 (binop -> GT .)
+    NOT             reduce using rule 33 (binop -> GT .)
+    MINUS           reduce using rule 33 (binop -> GT .)
+
+
+state 29
+
+    (27) binop -> LAND .
+
+    LPAREN          reduce using rule 27 (binop -> LAND .)
+    INTCONST        reduce using rule 27 (binop -> LAND .)
+    ID              reduce using rule 27 (binop -> LAND .)
+    NOT             reduce using rule 27 (binop -> LAND .)
+    MINUS           reduce using rule 27 (binop -> LAND .)
+
+
+state 30
+
+    (25) binop -> DIVIDE .
+
+    LPAREN          reduce using rule 25 (binop -> DIVIDE .)
+    INTCONST        reduce using rule 25 (binop -> DIVIDE .)
+    ID              reduce using rule 25 (binop -> DIVIDE .)
+    NOT             reduce using rule 25 (binop -> DIVIDE .)
+    MINUS           reduce using rule 25 (binop -> DIVIDE .)
+
+
+state 31
+
+    (17) ae -> ae binop . ae
+    (17) ae -> . ae binop ae
+    (18) ae -> . unop ae
+    (19) ae -> . LPAREN ae RPAREN
+    (20) ae -> . INTCONST
+    (21) ae -> . ID
+    (35) unop -> . NOT
+    (36) unop -> . MINUS
+
+    LPAREN          shift and go to state 18
+    INTCONST        shift and go to state 19
+    ID              shift and go to state 20
+    NOT             shift and go to state 17
+    MINUS           shift and go to state 16
+
+    unop                           shift and go to state 14
+    ae                             shift and go to state 50
+
+state 32
+
+    (34) binop -> GE .
+
+    LPAREN          reduce using rule 34 (binop -> GE .)
+    INTCONST        reduce using rule 34 (binop -> GE .)
+    ID              reduce using rule 34 (binop -> GE .)
+    NOT             reduce using rule 34 (binop -> GE .)
+    MINUS           reduce using rule 34 (binop -> GE .)
+
+
+state 33
+
+    (31) binop -> LT .
+
+    LPAREN          reduce using rule 31 (binop -> LT .)
+    INTCONST        reduce using rule 31 (binop -> LT .)
+    ID              reduce using rule 31 (binop -> LT .)
+    NOT             reduce using rule 31 (binop -> LT .)
+    MINUS           reduce using rule 31 (binop -> LT .)
+
+
+state 34
+
+    (30) binop -> NE .
+
+    LPAREN          reduce using rule 30 (binop -> NE .)
+    INTCONST        reduce using rule 30 (binop -> NE .)
+    ID              reduce using rule 30 (binop -> NE .)
+    NOT             reduce using rule 30 (binop -> NE .)
+    MINUS           reduce using rule 30 (binop -> NE .)
+
+
+state 35
+
+    (24) binop -> TIMES .
+
+    LPAREN          reduce using rule 24 (binop -> TIMES .)
+    INTCONST        reduce using rule 24 (binop -> TIMES .)
+    ID              reduce using rule 24 (binop -> TIMES .)
+    NOT             reduce using rule 24 (binop -> TIMES .)
+    MINUS           reduce using rule 24 (binop -> TIMES .)
+
+
+state 36
+
+    (28) binop -> LOR .
+
+    LPAREN          reduce using rule 28 (binop -> LOR .)
+    INTCONST        reduce using rule 28 (binop -> LOR .)
+    ID              reduce using rule 28 (binop -> LOR .)
+    NOT             reduce using rule 28 (binop -> LOR .)
+    MINUS           reduce using rule 28 (binop -> LOR .)
+
+
+state 37
+
+    (32) binop -> LE .
+
+    LPAREN          reduce using rule 32 (binop -> LE .)
+    INTCONST        reduce using rule 32 (binop -> LE .)
+    ID              reduce using rule 32 (binop -> LE .)
+    NOT             reduce using rule 32 (binop -> LE .)
+    MINUS           reduce using rule 32 (binop -> LE .)
+
+
+state 38
+
+    (22) binop -> PLUS .
+
+    LPAREN          reduce using rule 22 (binop -> PLUS .)
+    INTCONST        reduce using rule 22 (binop -> PLUS .)
+    ID              reduce using rule 22 (binop -> PLUS .)
+    NOT             reduce using rule 22 (binop -> PLUS .)
+    MINUS           reduce using rule 22 (binop -> PLUS .)
+
+
+state 39
+
+    (29) binop -> EQ .
+
+    LPAREN          reduce using rule 29 (binop -> EQ .)
+    INTCONST        reduce using rule 29 (binop -> EQ .)
+    ID              reduce using rule 29 (binop -> EQ .)
+    NOT             reduce using rule 29 (binop -> EQ .)
+    MINUS           reduce using rule 29 (binop -> EQ .)
+
+
+state 40
+
+    (23) binop -> MINUS .
+
+    LPAREN          reduce using rule 23 (binop -> MINUS .)
+    INTCONST        reduce using rule 23 (binop -> MINUS .)
+    ID              reduce using rule 23 (binop -> MINUS .)
+    NOT             reduce using rule 23 (binop -> MINUS .)
+    MINUS           reduce using rule 23 (binop -> MINUS .)
+
+
+state 41
+
+    (26) binop -> MOD .
+
+    LPAREN          reduce using rule 26 (binop -> MOD .)
+    INTCONST        reduce using rule 26 (binop -> MOD .)
+    ID              reduce using rule 26 (binop -> MOD .)
+    NOT             reduce using rule 26 (binop -> MOD .)
+    MINUS           reduce using rule 26 (binop -> MOD .)
+
+
+state 42
+
+    (19) ae -> LPAREN ae . RPAREN
+    (17) ae -> ae . binop ae
+    (22) binop -> . PLUS
+    (23) binop -> . MINUS
+    (24) binop -> . TIMES
+    (25) binop -> . DIVIDE
+    (26) binop -> . MOD
+    (27) binop -> . LAND
+    (28) binop -> . LOR
+    (29) binop -> . EQ
+    (30) binop -> . NE
+    (31) binop -> . LT
+    (32) binop -> . LE
+    (33) binop -> . GT
+    (34) binop -> . GE
+
+    RPAREN          shift and go to state 51
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 40
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 30
+    MOD             shift and go to state 41
+    LAND            shift and go to state 29
+    LOR             shift and go to state 36
+    EQ              shift and go to state 39
+    NE              shift and go to state 34
+    LT              shift and go to state 33
+    LE              shift and go to state 37
+    GT              shift and go to state 28
+    GE              shift and go to state 32
+
+    binop                          shift and go to state 31
+
+state 43
+
+    (10) print -> PRINT LPAREN ae . RPAREN SEMICOLON
+    (17) ae -> ae . binop ae
+    (22) binop -> . PLUS
+    (23) binop -> . MINUS
+    (24) binop -> . TIMES
+    (25) binop -> . DIVIDE
+    (26) binop -> . MOD
+    (27) binop -> . LAND
+    (28) binop -> . LOR
+    (29) binop -> . EQ
+    (30) binop -> . NE
+    (31) binop -> . LT
+    (32) binop -> . LE
+    (33) binop -> . GT
+    (34) binop -> . GE
+
+    RPAREN          shift and go to state 52
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 40
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 30
+    MOD             shift and go to state 41
+    LAND            shift and go to state 29
+    LOR             shift and go to state 36
+    EQ              shift and go to state 39
+    NE              shift and go to state 34
+    LT              shift and go to state 33
+    LE              shift and go to state 37
+    GT              shift and go to state 28
+    GE              shift and go to state 32
+
+    binop                          shift and go to state 31
+
+state 44
+
+    (9) assign -> ID EQUALS rhs . SEMICOLON
+
+    SEMICOLON       shift and go to state 53
+
+
+state 45
+
+    (15) rhs -> INPUT . LPAREN RPAREN
+
+    LPAREN          shift and go to state 54
+
+
+state 46
+
+    (16) rhs -> ae .
+    (17) ae -> ae . binop ae
+    (22) binop -> . PLUS
+    (23) binop -> . MINUS
+    (24) binop -> . TIMES
+    (25) binop -> . DIVIDE
+    (26) binop -> . MOD
+    (27) binop -> . LAND
+    (28) binop -> . LOR
+    (29) binop -> . EQ
+    (30) binop -> . NE
+    (31) binop -> . LT
+    (32) binop -> . LE
+    (33) binop -> . GT
+    (34) binop -> . GE
+
+    SEMICOLON       reduce using rule 16 (rhs -> ae .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 40
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 30
+    MOD             shift and go to state 41
+    LAND            shift and go to state 29
+    LOR             shift and go to state 36
+    EQ              shift and go to state 39
+    NE              shift and go to state 34
+    LT              shift and go to state 33
+    LE              shift and go to state 37
+    GT              shift and go to state 28
+    GE              shift and go to state 32
+
+    binop                          shift and go to state 31
+
+state 47
+
+    (12) if -> IF ae THEN . stmt ELSE stmt
+    (13) if -> IF ae THEN . stmt
+    (4) stmt -> . assign
+    (5) stmt -> . print
+    (6) stmt -> . block
+    (7) stmt -> . if
+    (8) stmt -> . while
+    (9) assign -> . ID EQUALS rhs SEMICOLON
+    (10) print -> . PRINT LPAREN ae RPAREN SEMICOLON
+    (11) block -> . LBRACE stmtseq RBRACE
+    (12) if -> . IF ae THEN stmt ELSE stmt
+    (13) if -> . IF ae THEN stmt
+    (14) while -> . WHILE ae DO stmt
+
+    ID              shift and go to state 8
+    PRINT           shift and go to state 4
+    LBRACE          shift and go to state 10
+    IF              shift and go to state 9
+    WHILE           shift and go to state 3
+
+    stmt                           shift and go to state 55
+    while                          shift and go to state 11
+    print                          shift and go to state 6
+    assign                         shift and go to state 12
+    block                          shift and go to state 13
+    if                             shift and go to state 5
+
+state 48
+
+    (11) block -> LBRACE stmtseq RBRACE .
+
+    ID              reduce using rule 11 (block -> LBRACE stmtseq RBRACE .)
+    PRINT           reduce using rule 11 (block -> LBRACE stmtseq RBRACE .)
+    LBRACE          reduce using rule 11 (block -> LBRACE stmtseq RBRACE .)
+    IF              reduce using rule 11 (block -> LBRACE stmtseq RBRACE .)
+    WHILE           reduce using rule 11 (block -> LBRACE stmtseq RBRACE .)
+    RBRACE          reduce using rule 11 (block -> LBRACE stmtseq RBRACE .)
+    $end            reduce using rule 11 (block -> LBRACE stmtseq RBRACE .)
+    ELSE            reduce using rule 11 (block -> LBRACE stmtseq RBRACE .)
+
+
+state 49
+
+    (14) while -> WHILE ae DO stmt .
+
+    ID              reduce using rule 14 (while -> WHILE ae DO stmt .)
+    PRINT           reduce using rule 14 (while -> WHILE ae DO stmt .)
+    LBRACE          reduce using rule 14 (while -> WHILE ae DO stmt .)
+    IF              reduce using rule 14 (while -> WHILE ae DO stmt .)
+    WHILE           reduce using rule 14 (while -> WHILE ae DO stmt .)
+    $end            reduce using rule 14 (while -> WHILE ae DO stmt .)
+    RBRACE          reduce using rule 14 (while -> WHILE ae DO stmt .)
+    ELSE            reduce using rule 14 (while -> WHILE ae DO stmt .)
+
+
+state 50
+
+    (17) ae -> ae binop ae .
+    (17) ae -> ae . binop ae
+    (22) binop -> . PLUS
+    (23) binop -> . MINUS
+    (24) binop -> . TIMES
+    (25) binop -> . DIVIDE
+    (26) binop -> . MOD
+    (27) binop -> . LAND
+    (28) binop -> . LOR
+    (29) binop -> . EQ
+    (30) binop -> . NE
+    (31) binop -> . LT
+    (32) binop -> . LE
+    (33) binop -> . GT
+    (34) binop -> . GE
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for TIMES resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for MOD resolved as shift
+  ! shift/reduce conflict for LAND resolved as shift
+  ! shift/reduce conflict for LOR resolved as shift
+  ! shift/reduce conflict for EQ resolved as shift
+  ! shift/reduce conflict for NE resolved as shift
+  ! shift/reduce conflict for LT resolved as shift
+  ! shift/reduce conflict for LE resolved as shift
+  ! shift/reduce conflict for GT resolved as shift
+  ! shift/reduce conflict for GE resolved as shift
+    SEMICOLON       reduce using rule 17 (ae -> ae binop ae .)
+    DO              reduce using rule 17 (ae -> ae binop ae .)
+    THEN            reduce using rule 17 (ae -> ae binop ae .)
+    RPAREN          reduce using rule 17 (ae -> ae binop ae .)
+    PLUS            shift and go to state 38
+    MINUS           shift and go to state 40
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 30
+    MOD             shift and go to state 41
+    LAND            shift and go to state 29
+    LOR             shift and go to state 36
+    EQ              shift and go to state 39
+    NE              shift and go to state 34
+    LT              shift and go to state 33
+    LE              shift and go to state 37
+    GT              shift and go to state 28
+    GE              shift and go to state 32
+
+  ! PLUS            [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! MINUS           [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! TIMES           [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! DIVIDE          [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! MOD             [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! LAND            [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! LOR             [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! EQ              [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! NE              [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! LT              [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! LE              [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! GT              [ reduce using rule 17 (ae -> ae binop ae .) ]
+  ! GE              [ reduce using rule 17 (ae -> ae binop ae .) ]
+
+    binop                          shift and go to state 31
+
+state 51
+
+    (19) ae -> LPAREN ae RPAREN .
+
+    PLUS            reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    MINUS           reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    TIMES           reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    DIVIDE          reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    MOD             reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    LAND            reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    LOR             reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    EQ              reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    NE              reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    LT              reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    LE              reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    GT              reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    GE              reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    SEMICOLON       reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    DO              reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    THEN            reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+    RPAREN          reduce using rule 19 (ae -> LPAREN ae RPAREN .)
+
+
+state 52
+
+    (10) print -> PRINT LPAREN ae RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 56
+
+
+state 53
+
+    (9) assign -> ID EQUALS rhs SEMICOLON .
+
+    ID              reduce using rule 9 (assign -> ID EQUALS rhs SEMICOLON .)
+    PRINT           reduce using rule 9 (assign -> ID EQUALS rhs SEMICOLON .)
+    LBRACE          reduce using rule 9 (assign -> ID EQUALS rhs SEMICOLON .)
+    IF              reduce using rule 9 (assign -> ID EQUALS rhs SEMICOLON .)
+    WHILE           reduce using rule 9 (assign -> ID EQUALS rhs SEMICOLON .)
+    $end            reduce using rule 9 (assign -> ID EQUALS rhs SEMICOLON .)
+    RBRACE          reduce using rule 9 (assign -> ID EQUALS rhs SEMICOLON .)
+    ELSE            reduce using rule 9 (assign -> ID EQUALS rhs SEMICOLON .)
+
+
+state 54
+
+    (15) rhs -> INPUT LPAREN . RPAREN
+
+    RPAREN          shift and go to state 57
+
+
+state 55
+
+    (12) if -> IF ae THEN stmt . ELSE stmt
+    (13) if -> IF ae THEN stmt .
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    ELSE            shift and go to state 58
+    ID              reduce using rule 13 (if -> IF ae THEN stmt .)
+    PRINT           reduce using rule 13 (if -> IF ae THEN stmt .)
+    LBRACE          reduce using rule 13 (if -> IF ae THEN stmt .)
+    IF              reduce using rule 13 (if -> IF ae THEN stmt .)
+    WHILE           reduce using rule 13 (if -> IF ae THEN stmt .)
+    $end            reduce using rule 13 (if -> IF ae THEN stmt .)
+    RBRACE          reduce using rule 13 (if -> IF ae THEN stmt .)
+
+  ! ELSE            [ reduce using rule 13 (if -> IF ae THEN stmt .) ]
+
+
+state 56
+
+    (10) print -> PRINT LPAREN ae RPAREN SEMICOLON .
+
+    ID              reduce using rule 10 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    PRINT           reduce using rule 10 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    LBRACE          reduce using rule 10 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    IF              reduce using rule 10 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    WHILE           reduce using rule 10 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    $end            reduce using rule 10 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 10 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+    ELSE            reduce using rule 10 (print -> PRINT LPAREN ae RPAREN SEMICOLON .)
+
+
+state 57
+
+    (15) rhs -> INPUT LPAREN RPAREN .
+
+    SEMICOLON       reduce using rule 15 (rhs -> INPUT LPAREN RPAREN .)
+
+
+state 58
+
+    (12) if -> IF ae THEN stmt ELSE . stmt
+    (4) stmt -> . assign
+    (5) stmt -> . print
+    (6) stmt -> . block
+    (7) stmt -> . if
+    (8) stmt -> . while
+    (9) assign -> . ID EQUALS rhs SEMICOLON
+    (10) print -> . PRINT LPAREN ae RPAREN SEMICOLON
+    (11) block -> . LBRACE stmtseq RBRACE
+    (12) if -> . IF ae THEN stmt ELSE stmt
+    (13) if -> . IF ae THEN stmt
+    (14) while -> . WHILE ae DO stmt
+
+    ID              shift and go to state 8
+    PRINT           shift and go to state 4
+    LBRACE          shift and go to state 10
+    IF              shift and go to state 9
+    WHILE           shift and go to state 3
+
+    stmt                           shift and go to state 59
+    while                          shift and go to state 11
+    print                          shift and go to state 6
+    assign                         shift and go to state 12
+    block                          shift and go to state 13
+    if                             shift and go to state 5
+
+state 59
+
+    (12) if -> IF ae THEN stmt ELSE stmt .
+
+    ID              reduce using rule 12 (if -> IF ae THEN stmt ELSE stmt .)
+    PRINT           reduce using rule 12 (if -> IF ae THEN stmt ELSE stmt .)
+    LBRACE          reduce using rule 12 (if -> IF ae THEN stmt ELSE stmt .)
+    IF              reduce using rule 12 (if -> IF ae THEN stmt ELSE stmt .)
+    WHILE           reduce using rule 12 (if -> IF ae THEN stmt ELSE stmt .)
+    $end            reduce using rule 12 (if -> IF ae THEN stmt ELSE stmt .)
+    RBRACE          reduce using rule 12 (if -> IF ae THEN stmt ELSE stmt .)
+    ELSE            reduce using rule 12 (if -> IF ae THEN stmt ELSE stmt .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 26 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 26 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 26 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 26 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 26 resolved as shift
+WARNING: shift/reduce conflict for LAND in state 26 resolved as shift
+WARNING: shift/reduce conflict for LOR in state 26 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 26 resolved as shift
+WARNING: shift/reduce conflict for NE in state 26 resolved as shift
+WARNING: shift/reduce conflict for LT in state 26 resolved as shift
+WARNING: shift/reduce conflict for LE in state 26 resolved as shift
+WARNING: shift/reduce conflict for GT in state 26 resolved as shift
+WARNING: shift/reduce conflict for GE in state 26 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 50 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 50 resolved as shift
+WARNING: shift/reduce conflict for TIMES in state 50 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 50 resolved as shift
+WARNING: shift/reduce conflict for MOD in state 50 resolved as shift
+WARNING: shift/reduce conflict for LAND in state 50 resolved as shift
+WARNING: shift/reduce conflict for LOR in state 50 resolved as shift
+WARNING: shift/reduce conflict for EQ in state 50 resolved as shift
+WARNING: shift/reduce conflict for NE in state 50 resolved as shift
+WARNING: shift/reduce conflict for LT in state 50 resolved as shift
+WARNING: shift/reduce conflict for LE in state 50 resolved as shift
+WARNING: shift/reduce conflict for GT in state 50 resolved as shift
+WARNING: shift/reduce conflict for GE in state 50 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 55 resolved as shift
