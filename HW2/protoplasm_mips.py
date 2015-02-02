@@ -55,9 +55,6 @@ def get_reg_num_from_var(var):
 def optimize_assignments():
 	for asgn in assignments:
 		if isinstance(asgn[3], int):
-			print "Found instance at"
-			print asgn
-			print ""
 			reg_num = asgn[0]
 			ctr = asgn[1]
 			arg1 = asgn[2]
@@ -97,7 +94,7 @@ def convert_tuple_to_asm(t, reg_num):
 			
 	elif op == '+':
 		add = "$t%r" % (new_num)
-		if isinstance(arg2, int):
+		if (not isinstance(arg1, int)) and isinstance(arg2, int):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
 			if arg1.isdigit():
 				# (4, '+', '2', 0)
@@ -109,9 +106,9 @@ def convert_tuple_to_asm(t, reg_num):
 				# (4, '+', 'var', 0)
 				reg1 = "$t%r" % (get_reg_num_from_var(arg1))
 				asm_str = "\tadd %s, %s, %s\n" % (add, reg1, reg2)
-				v = int(arg1)
+				v = arg1
 				assignments.append([reg_num, ctr, 'add', v])
-		else:
+		elif isinstance(arg1, int) and (not isinstance(arg2, int)):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg1))
 			if arg2.isdigit():
 				# (4, '+', 0, '2')
@@ -122,13 +119,20 @@ def convert_tuple_to_asm(t, reg_num):
 			else:
 				# (4, '+', 0, 'var')
 				reg1 = "$t%r" % (get_reg_num_from_var(arg2))
-				asm_str = "\tadd %s, %s, %s\n" % (add, reg2, reg1)
-				v = int(arg2)
+				asm_str = "\tadd %s, %s, %s\n" % (add, reg1, reg2)
+				v = arg2
 				assignments.append([reg_num, ctr, 'add', v])
+		else:
+			reg1 = "$t%r" % (get_reg_num_from_ctr(arg1))
+			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
+			asm_str = "\tadd %s, %s, %s\n" % (add, reg1, reg2)
+			v = int(new_num)
+			assignments.append([reg_num, ctr, 'add', v])
 		new_num += 1
+		
 	elif op == '-':
 		sub = "$t%r" % (new_num)
-		if isinstance(arg2, int):
+		if (not isinstance(arg1, int)) and isinstance(arg2, int):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
 			if arg1.isdigit():
 				# (4, '-', '2', 0)
@@ -140,9 +144,9 @@ def convert_tuple_to_asm(t, reg_num):
 				# (4, '-', 'var', 0)
 				reg1 = "$t%r" % (get_reg_num_from_var(arg1))
 				asm_str = "\tsub %s, %s, %s\n" % (sub, reg1, reg2)
-				v = int(arg1)
+				v = arg1
 				assignments.append([reg_num, ctr, 'sub', v])
-		else:
+		elif isinstance(arg1, int) and (not isinstance(arg2, int)):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg1))
 			if arg2.isdigit():
 				# (4, '-', 0, '2')
@@ -154,53 +158,67 @@ def convert_tuple_to_asm(t, reg_num):
 				# (4, '-', 0, 'var')
 				reg1 = "$t%r" % (get_reg_num_from_var(arg2))
 				asm_str = "\tsub %s, %s, %s\n" % (sub, reg2, reg1)
-				v = int(arg2)
+				v = arg2
 				assignments.append([reg_num, ctr, 'sub', v])
+		else:
+			reg1 = "$t%r" % (get_reg_num_from_ctr(arg1))
+			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
+			asm_str = "\tsub %s, %s, %s\n" % (sub, reg1, reg2)
+			v = int(new_num)
+			assignments.append([reg_num, ctr, 'sub', v])
 		new_num += 1
-
+		
 	elif op == '*':
-		if isinstance(arg2, int):
-			mflo = "$t%r" % (new_num)
+		mflo = "$t%r" % (new_num)
+		if (not isinstance(arg1, int)) and isinstance(arg2, int):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
 			if arg1.isdigit():
+				# (4, '*', '2', 0)
 				asm_str = "\tli $a0, %s\n" % (arg1)
 				asm_str += "\tmult %s, $a0\n" % (reg2)
 				asm_str += "\tmflo %s\n" % (mflo)
 				v = int(arg1) * int(get_val_from_ctr(arg2))
-				assignments.append([reg_num, ctr, 'mflo', v])
+				assignments.append([reg_num, ctr, 'mul', v])
 			else:
+				# (4, '*', 'var', 0)
 				reg1 = "$t%r" % (get_reg_num_from_var(arg1))
 				asm_str = "\tmult %s, %s\n" % (reg1, reg2)
 				asm_str += "\tmflo %s\n" % (mflo)
 				v = get_val_from_var(arg1) * get_val_from_ctr(arg2)
-				assignments.append([reg_num, ctr, 'mflo', v])
-			new_num += 1
-		else:
+				assignments.append([reg_num, ctr, 'mul', v])
+		elif isinstance(arg1, int) and (not isinstance(arg2, int)):
 			num = get_reg_num_from_ctr(arg1)
-			mflo = "$t%r" % (new_num)
 			reg1 = "$t%r" % (num)
 			# Load immediate then mult
 			# else get value of var assignment
 			if arg2.isdigit():
-				print num
-				print arg2
+				# (4, '*', '2', 0)
 				asm_str = "\tli $a0, %s\n" % (arg2)
 				asm_str += "\tmult %s, $a0\n" % (reg1)
 				asm_str += "\tmflo %s\n" % (mflo)
 				v = int(get_val_from_ctr(arg1)) * int(arg2)
-				assignments.append([reg_num, ctr, 'mflo', v])
+				assignments.append([reg_num, ctr, 'mul', v])
 			else:
+				# (4, '*', '2', 0)
 				reg2 = get_val_from_var(arg2)
 				asm_str = "\tli $a0, %s\n" % (reg2)
 				asm_str += "\tmult %s, %s\n" % (reg1, reg2)
 				asm_str += "\tmflo %s\n" % (mflo)
 				v = int(get_val_from_ctr(arg1)) * int(reg2)
-				assignments.append([reg_num, ctr, 'mflo', reg2])
-			new_num += 1
+				assignments.append([reg_num, ctr, 'mul', reg2])
+		else:
+			# (4, '*', '2', 0)
+			reg1 = "$t%r" % (get_reg_num_from_ctr(arg1))
+			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
+			asm_str = "\tmult %s, %s\n" % (reg1, reg2)
+			asm_str += "\tmflo %s\n" % (mflo)
+			v = int(new_num)
+			assignments.append([reg_num, ctr, 'mul', v])
+		new_num += 1
 			
 	elif op == '/':
 		div = "$t%r" % (new_num)
-		if isinstance(arg2, int):
+		if (not isinstance(arg1, int)) and isinstance(arg2, int):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
 			if arg1.isdigit():
 				# (4, '/', '2', 0)
@@ -214,9 +232,9 @@ def convert_tuple_to_asm(t, reg_num):
 				reg1 = "$t%r" % (get_reg_num_from_var(arg1))
 				asm_str = "\tdiv %s, %s\n" % (reg1, reg2)
 				asm_str += "\tmflo %s\n" % (div)
-				v = int(arg1)
+				v = arg1
 				assignments.append([reg_num, ctr, 'div', v])
-		else:
+		elif isinstance(arg1, int) and (not isinstance(arg2, int)):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg1))
 			if arg2.isdigit():
 				# (4, '/', 0, '2')
@@ -232,11 +250,18 @@ def convert_tuple_to_asm(t, reg_num):
 				asm_str += "\tmflo %s\n" % (div)
 				v = int(arg2)
 				assignments.append([reg_num, ctr, 'div', v])
+		else:
+			reg1 = "$t%r" % (get_reg_num_from_ctr(arg1))
+			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
+			asm_str = "\tdiv %s, %s\n" % (reg1, reg2)
+			asm_str += "\tmflo %s\n" % (div)
+			v = int(new_num)
+			assignments.append([reg_num, ctr, 'div', v])
 		new_num += 1
 		
 	elif op == '%':
 		div = "$t%r" % (new_num)
-		if isinstance(arg2, int):
+		if (not isinstance(arg1, int)) and isinstance(arg2, int):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
 			if arg1.isdigit():
 				# (4, '/', '2', 0)
@@ -252,7 +277,7 @@ def convert_tuple_to_asm(t, reg_num):
 				asm_str += "\tmfhi %s\n" % (div)
 				v = int(arg1)
 				assignments.append([reg_num, ctr, 'mod', v])
-		else:
+		elif isinstance(arg1, int) and (not isinstance(arg2, int)):
 			reg2 = "$t%r" % (get_reg_num_from_ctr(arg1))
 			if arg2.isdigit():
 				# (4, '/', 0, '2')
@@ -268,13 +293,20 @@ def convert_tuple_to_asm(t, reg_num):
 				asm_str += "\tmfhi %s\n" % (div)
 				v = int(arg2)
 				assignments.append([reg_num, ctr, 'mod', v])
+		else:
+			reg1 = "$t%r" % (get_reg_num_from_ctr(arg1))
+			reg2 = "$t%r" % (get_reg_num_from_ctr(arg2))
+			asm_str = "\tdiv %s, %s\n" % (reg1, reg2)
+			asm_str += "\tmfhi %s\n" % (div)
+			v = int(new_num)
+			assignments.append([reg_num, ctr, 'mod', v])
 		new_num += 1
 		
 	elif op == 'minus':
 		if arg1 == None:
 			if isinstance(arg2, int):
 				num = get_reg_num_from_ctr(arg2)
-				print num
+
 				if num != -1:
 					reg = "$t%r" % (num)
 					asm_str = "\tli $a0, -1\n"
@@ -293,9 +325,7 @@ def convert_tuple_to_asm(t, reg_num):
 				
 	elif op == 'print':
 		if isinstance(arg2, int):
-			print "PRINT IS INT"
 			num = get_reg_num_from_ctr(arg2)
-			print num
 			if num != -1:
 				reg = "$t%r" % (num)
 				asm_str = "\tadd $a0, %s, 0\n" % (reg)
@@ -304,10 +334,10 @@ def convert_tuple_to_asm(t, reg_num):
 			#else:
 			#	num = follow_assigns_to_print(arg2)
 		else:
-			print "PRINT IS NOT INT"
 			asm_str = "\tli $a0, %s\n" % (arg2)
 			asm_str += "\tli $v0, 1\n"
 			asm_str += "\tsyscall\n"
+			
 	elif op == 'input':
 		reg = "$t%r" % (new_num)
 		if arg2 == None:
@@ -336,4 +366,5 @@ def make_asm_exec(fname, tlist):
 		print "Error: Register spilling detected. Aborting compile"
 	else:
 		write_to_asm(fname, string)
+		print "Written out to file: %s" % fname
 

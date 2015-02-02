@@ -1,0 +1,15 @@
+// This is a comment
+/* Here is another commet
+that has multiple lines*/
+abc = -1;
+/* This is another comment */
+/*
+* 
+A multi line comment
+*/
+/****************
+********** Another multi line comment
+*********************/
+print(abc);
+/** This is a doc string */
+// Here is the last comment

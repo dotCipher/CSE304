@@ -133,11 +133,11 @@ def main():
 		# Global of triples set up in protoplasm_interp
 		protoplasm_interp.gencode(program, 0)
 		protoplasm_interp.optimize()
-		print ""
-		print ""
-		print program
-		print ""
-		print ""
+		#print ""
+		#print ""
+		#print program
+		#print ""
+		#print ""
 		print ""
 		print ""
 		print protoplasm_interp.triples
@@ -149,7 +149,6 @@ def main():
 		filename = substr + ".asm"
 		# Generate MIPS from intermediate code
 		protoplasm_mips.make_asm_exec(filename, protoplasm_interp.triples)
-		print "Written out to file: %s" % filename
 
 if __name__ == "__main__":
 	main()

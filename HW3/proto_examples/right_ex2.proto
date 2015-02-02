@@ -1,0 +1,6 @@
+abc = input();
+x = 0;
+if ((abc % 2) == 1) then {
+	x = 2;
+}
+print(x);
